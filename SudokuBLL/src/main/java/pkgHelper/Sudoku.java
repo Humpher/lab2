@@ -188,58 +188,30 @@ public int[] getRegion(int iCol, int iRow) {
 
 	
 
-public boolean isPartialSudoku() {
-
+boolean isPartialSudoku() {
 	
-
-	boolean isPartialSudoku = false;
-
-	
-
-	//if (super.isLatinSquare() == true) {
-
+	if(super.ContainsZero()) {
 		
-
-		//isPartialSudoku = true;
-
-
-
-		for (int i = 0; i<super.getLatinSquare().length; i++)	{
-
-	
-
-			if (super.hasDuplicates(getRegion(i)) == false) {
-
-				//isPartialSudoku = true;
-
+		for(int i=0;i<iSize;i++) {
 			
-
-			
-
-		
-
-	
-
-			
-
-			if (super.ContainsZero() == true) {
-
-				isPartialSudoku = true;
-
+			if(super.hasDuplicates(super.getRow(i))) {
+				
+				return false;
 			}
-
+			
+			else if(super.hasDuplicates(super.getColumn(i))) {
+				
+				return false;
 			}
-
+			else if(super.hasDuplicates(this.getRegion(i))) {
+				
+				return false;
+			}
 		}
-
-	return isPartialSudoku;
-
-	
-
-	
-
+		return true;
+	}
+	return false;
 }
-
 
 
 public boolean isSudoku() {
