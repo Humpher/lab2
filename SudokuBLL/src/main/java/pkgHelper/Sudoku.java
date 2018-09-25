@@ -1,238 +1,256 @@
 package pkgHelper;
 
-public class Sudoku extends LatinSquare {
+public class Sudoku extends LatinSquare{
+
+
+
 	
-	
+
 	//private int [][] puzzle;
 
 	
 
-		private int iSqrtSize ;
+	private int iSqrtSize ;
 
-		private int iSize;
+	private int iSize;
 
-		
+	
 
-	public Sudoku(int iSize) throws Exception {
+public Sudoku(int iSize) throws Exception {
 
-		
+	
 
-		super();
+	super();
 
 
 
-		
+	
 
-		
+	
+
+	iSqrtSize = (int) Math.sqrt(iSize);
+
+
+
+	try {
+
+		if(Math.floor(iSize) == iSqrtSize) {
 
 		iSqrtSize = (int) Math.sqrt(iSize);
 
+	}}
+
+		
+
+	catch (Exception e) {
+
+			throw e;	
+
+			}
+
+		
+
+	
+
+}
 
 
-		try {
 
-			if(Math.floor(iSize) == iSqrtSize) {
+public Sudoku(int [][] puzzle) throws Exception {
 
-			iSqrtSize = (int) Math.sqrt(iSize);
+	
+
+	super(puzzle);
+
+	
+
+	//this.puzzle = puzzle;
+
+	
+
+	iSize = puzzle.length;
+
+	
+
+	iSqrtSize = (int) Math.sqrt(iSize);
+
+		
+
+	
+
+	try {
+
+		if(Math.floor(iSize) == iSqrtSize) {
+
+		iSqrtSize = (int) Math.sqrt(iSize);
+
+		
 
 		}}
 
-			
+	catch (Exception e) {
 
-		catch (Exception e) {
-
-				throw e;	
-
-				}
-
-			
-
-		
+		throw e;
 
 	}
 
+	
 
+	
 
-	public Sudoku(int [][] puzzle) throws Exception {
+	
 
-		
+	
 
-		super(puzzle);
+	
 
-		
+	
 
-		//this.puzzle = puzzle;
+	
 
-		
+}
 
-		iSize = puzzle.length;
+	
 
-		
-
-		iSqrtSize = (int) Math.sqrt(iSize);
-
-			
+public int[] getRegion(int r) {
 
 		
 
-		try {
-
-			if(Math.floor(iSize) == iSqrtSize) {
-
-			iSqrtSize = (int) Math.sqrt(iSize);
-
-			
-
-			}}
-
-		catch (Exception e) {
-
-			throw e;
-
-		}
-		
+		int[] reg = new int[super.getLatinSquare().length];
 
 		
 
-	}
+		int i = (r % iSqrtSize) * iSqrtSize;
+
+		int j = (r / iSqrtSize) * iSqrtSize;
+
+		int iMax = i + iSqrtSize;
+
+		int jMax = j + iSqrtSize;
+
+		int iCnt = 0;
 
 		
 
-	public int[] getRegion(int r) {
+		for (; j < jMax; j++) {
 
-			
+			for (i = (r % iSqrtSize) * iSqrtSize; i < iMax; i++) {
 
-			int[] reg = new int[super.getLatinSquare().length];
+				
 
-			
+				System.out.println("J: " + j + "   " + "I: " + i);
 
-			int i = (r % iSqrtSize) * iSqrtSize;
+				
 
-			int j = (r / iSqrtSize) * iSqrtSize;
+				
 
-			int iMax = i + iSqrtSize;
+				
 
-			int jMax = j + iSqrtSize;
-
-			int iCnt = 0;
-
-			
-
-			for (; j < jMax; j++) {
-
-				for (i = (r % iSqrtSize) * iSqrtSize; i < iMax; i++) {
-
-					
-
-					System.out.println("J: " + j + "   " + "I: " + i);
-
-					
-
-					
-
-					
-
-					reg[iCnt++] = super.getLatinSquare()[i][j];
-
-				}
+				reg[iCnt++] = super.getLatinSquare()[i][j];
 
 			}
-
-			return reg;
 
 		}
 
-
-
-
-
-
-
-	public int[][] getPuzzle(){
-
-		return super.getLatinSquare();
-
-		
+		return reg;
 
 	}
 
 
 
+
+
+
+
+public int[][] getPuzzle(){
+
+	return super.getLatinSquare();
+
+	
+
+}
+
+
+
+	
+
+public int[] getRegion(int iCol, int iRow) {
+
+	int r = (iCol/iSqrtSize) + ((iRow/iSqrtSize)*iSqrtSize);
+
+			
+
+	return getRegion(r);	
+
+		}
+
 		
 
-	public int[] getRegion(int iCol, int iRow) {
+	
 
-		int r = (iCol/iSqrtSize) + ((iRow/iSqrtSize)*iSqrtSize);
+public boolean isPartialSudoku() {
 
-				
+	
 
-		return getRegion(r);	
+	boolean isPartialSudoku = false;
 
-			}
+	
+
+	//if (super.isLatinSquare() == true) {
+
+		
+
+		//isPartialSudoku = true;
+
+
+
+		for (int i = 0; i<super.getLatinSquare().length; i++)	{
+
+	
+
+			if (super.hasDuplicates(getRegion(i)) == false) {
+
+				//isPartialSudoku = true;
+
+			
 
 			
 
 		
 
-	public boolean isPartialSudoku() {
-
-		
-
-		boolean isPartialSudoku = false;
-
-		
-
-		if (super.isLatinSquare() == true) {
+	
 
 			
 
-			isPartialSudoku = true;
+			if (super.ContainsZero() == true) {
 
-			
-
-			for (int i = 0; i<super.getLatinSquare().length; i++)	{
-
-		
-
-				if (super.hasDuplicates(getRegion(i)) == false) {
-
-					isPartialSudoku = true;
-
-				}
-
-				
+				isPartialSudoku = true;
 
 			}
 
-		
-
-				
-
-				if (super.ContainsZero() == true) {
-
-					isPartialSudoku = true;
-
-					
-
-				}
-
 			}
 
-		return isPartialSudoku;
+		}
 
-		
+	return isPartialSudoku;
 
-		
+	
 
-	}
+	
+
+}
 
 
 
-	public boolean isSudoku() {
+public boolean isSudoku() {
 
-		
+	
 
-		boolean isSudoku = false;
+	boolean isSudoku = false;
+
+	
+
+	if(isPartialSudoku() == true) {
 
 		
 
@@ -240,65 +258,72 @@ public class Sudoku extends LatinSquare {
 
 			if (super.hasAllValues(super.getRow(0), getRegion(j)) == true) {
 
+				
+
+				if (super.ContainsZero() == false) {
+
 				isSudoku = true;
 
-				
+		
+
+				}
 
 			}
 
 		}
 
-		return isSudoku;
-
-		
-
-		
-
 	}
 
+	return isSudoku;
 
+	
 
-	public boolean isValidValue(int iRow, int iCol, int iValue) {
-
-		 boolean isValidValue = false;
-
-		
-
-		 if((doesElementExist(getRow(iRow), iValue) == false)){
-
-			 //isValidValue = true;
-
-		 
-
-		 	if((doesElementExist(getColumn(iCol), iValue) == false)){
-
-		 		//isValidValue = true;
-
-		 	
-
-		 		if (iValue > 0 && iValue < 10) {
-
-		 			isValidValue = true;
-
-		 		}
-
-		 	}
-
-		
-
-	}
-
-		 
-
-		 return isValidValue;
-
-
-
-
-
-	}
+	
 
 }
 
+
+
+public boolean isValidValue(int iRow, int iCol, int iValue) {
+
+	 boolean isValidValue = false;
+
+	
+
+	 if((doesElementExist(getRow(iRow), iValue) == false)){
+
+		 //isValidValue = true;
+
+	 
+
+	 	if((doesElementExist(getColumn(iCol), iValue) == false)){
+
+	 		//isValidValue = true;
+
+	 	
+
+	 		if (iValue > 0 && iValue < 10) {
+
+	 			isValidValue = true;
+
+	 		}
+
+	 	}
+
+	
+
+}
+
+	 
+
+	 return isValidValue;
+
+
+
+
+
+}
+
+}
 	
 
